@@ -223,7 +223,7 @@ app.command("/almanac-help", async ({ command, ack, respond }) => {
 /almanac-qotd - Quote of the day
 /almanac-numfact - A fact about today's date
 /almanac-country - Country of the day
-/almanac-help - This list`
+/almanac-help - This list of commands`
   });
 });
 
