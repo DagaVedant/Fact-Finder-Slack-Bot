@@ -177,28 +177,56 @@ app.command("/almanac-today", async ({ command, ack, respond }) => {
 
   let numberFact;
   try {
-    const month = now.getMonth() + 1;
-    const date = now.getDate();
-    const response = await axios.get(`http://numbersapi.com/${month}/${date}/date?json`);
-    numberFact = `Number Fact:\n${response.data.text}`;
-  } catch (err) {
-    numberFact = "Couldn't load a number fact right now.";
+  const response = await axios.get(
+    `http://numbersapi.com/${month}/${day}/date?json`
+  );
+
+  await respond({
+    text: `Number Fact:\n${response.data.text}`
+  });
+} catch (err) {
+  console.error("Number Fact Error:", err.message);
+  if (err.response) {
+    console.error(err.response.status, err.response.data);
   }
+
+  await respond({
+    text: "Couldn't load a number fact right now."
+  });
+}
 
   let country;
   try {
-    const name = COUNTRIES[day % COUNTRIES.length];
-    const response = await axios.get(`https://restcountries.com/v3.1/name/${encodeURIComponent(name)}?fullText=true`);
-    const c = response.data[0];
-    const capital = c.capital ? c.capital[0] : "Unknown";
-    const region = c.subregion || c.region || "Unknown";
-    const population = c.population.toLocaleString("en-US");
-    const languages = Object.values(c.languages).join(", ");
-    country = `Country of the Day: ${c.flag} ${c.name.common}\nCapital: ${capital}\nRegion: ${region}\nPopulation: ${population}\nLanguages: ${languages}`;
-  } catch (err) {
-    country = "Couldn't load today's country, try again later.";
-  }
+    const response = await axios.get(
+      `https://restcountries.com/v3.1/name/${encodeURIComponent(name)}?fullText=true`
+    );
 
+    const country = response.data[0];
+
+    const capital = country.capital?.[0] ?? "Unknown";
+    const region = country.subregion || country.region || "Unknown";
+    const population = country.population.toLocaleString();
+    const languages = country.languages
+      ? Object.values(country.languages).join(", ")
+      : "Unknown";
+
+    await respond({
+      text: `Country of the Day: ${country.flag} ${country.name.common}
+  Capital: ${capital}
+  Region: ${region}
+  Population: ${population}
+  Languages: ${languages}`
+    });
+  } catch (err) {
+    console.error("Country Error:", err.message);
+    if (err.response) {
+      console.error(err.response.status, err.response.data);
+    }
+
+  await respond({
+    text: "Couldn't load today's country, try again later."
+  });
+}
   await respond({
     text:
 `${word}
