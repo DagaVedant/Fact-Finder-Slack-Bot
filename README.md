@@ -1,7 +1,7 @@
 # Almanac Bot
 ![logo](images/logo.png)
 
-A Slack bot I made that drops a daily batch of cool info right into your workspace. Every digest has a word of the day, a fun fact, something that happened on this day in history, and a quote.
+A Slack bot I made that drops a daily batch of info into your channel. Each message has the word of the day, a fun fact, something that happened on this day in history, and a quote.
 
 ![Project Screenshot](images/screenshot.png)
 
@@ -16,10 +16,10 @@ That's it.
 
 ## Features
 * **Daily Digest** - Everything in one command with `/almanac-today`
-* **Word of the Day** - A new word with its definition, part of speech, and an example sentence
+* **Word of the Day** - A new word (definition, part of speech, and sentence)
 * **Fact of the Day** - A random fact every day
 * **On This Day** - Historical events that happened today
-* **Quote of the Day** - A quote from someone notable
+* **Quote of the Day** - A quote
 
 ## Running Locally
 ### Prerequisites
@@ -46,9 +46,9 @@ node index.js
 ```
 
 ## How It Works
-Almanac Bot is built with Node.js and Slack Bolt in Socket Mode. This lets it connect straight to Slack without needing a public server or something like ngrok, which makes development a lot easier.
+Almanac Bot is built with Node.js and Slack Bolt in Socket Mode.
 
-The biggest challenge while building it was getting the bot to respond quickly and reliably. Earlier versions used a bunch of different APIs, which sometimes caused delays or timeouts. To fix that I cut some of the features down and put each API request in its own error-handling block. That way if one API fails, the bot still sends the rest of the digest instead of crashing.
+The biggest challenge while building it was getting the bot to respond quickly and reliably. The first version that I made was using like 4 different APIs or something, and that just caused errors, timeouts, and delays, and like was a pain to deal with. So I just removed some of the features, and made each API run by itself, so if one fails, the others still work and it can still reply to the message.
 
 ## Tech Stack
 * Node.js
@@ -62,4 +62,4 @@ The biggest challenge while building it was getting the bot to respond quickly a
 * ZenQuotes API
 
 ## What I Learned
-Building this taught me a lot about working with APIs, handling errors, putting together Slack apps, and making software more reliable. I also got some experience designing a project that pulls data from a few different sources and puts it together into one response.
+I learned how to work with many APIs, handle different errors, and make Slack apps. I also learned how to use differnt sources and make it into one message.
